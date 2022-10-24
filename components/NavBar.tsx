@@ -13,6 +13,8 @@ import { IconChevronDown } from '@tabler/icons';
 import { MantineLogo } from '@mantine/ds';
 import Image from 'next/image';
 import image from '../public/Mustifi.svg'
+import { useState, useEffect } from "react"
+import WalletInfo from './WalletInfo'
 
   
   const HEADER_HEIGHT = 80;
@@ -66,6 +68,31 @@ import image from '../public/Mustifi.svg'
   export default function HeaderAction({ links }: HeaderActionProps) {
     const { classes } = useStyles();
     const [opened, { toggle }] = useDisclosure(false);
+    const [isMetamaskInstalled, setIsMetamaskInstalled] = useState<boolean>(false);
+    const [account, setAccount] = useState<string | null>(null);
+
+    useEffect(() => {
+      if((window as any).ethereum){
+        //check if Metamask wallet is installed
+        setIsMetamaskInstalled(true);
+      }
+    },[account]);
+
+    //Does the User have an Ethereum wallet/account?
+    async function connectWallet(): Promise<void> {
+      //to get around type checking
+      (window as any).ethereum
+        .request({
+            method: "eth_requestAccounts",
+        })
+        .then((accounts : string[]) => {
+            setAccount(accounts[0]);
+        })
+        .catch((error: any) => {
+            alert(`Something went wrong: ${error}`);
+        });
+    }
+
     const items = links.map((link) => {
       const menuItems = link.links?.map((item) => (
         <>
@@ -106,19 +133,26 @@ import image from '../public/Mustifi.svg'
         </a>
       );
     });
+
+    const ConnectButton = () => {
+      return(
+        <Button radius="lg" sx={{ height: 50 }} onClick={connectWallet}>
+          Connect Wallet
+        </Button>
+      )
+    }
+
   
     return (
       <Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }} >
         <Container className={classes.inner} fluid>
           <Group>
-            <Image height={80} width={80} src={image}/>
+            <Image height={100} width={100} src={image}/>
           </Group>
           <Group spacing={5} className={classes.links}>
             {items}
           </Group>
-          <Button radius="lg" sx={{ height: 50 }}>
-            Connect Wallet
-          </Button>
+          {account === null ? <ConnectButton/> : <WalletInfo image={''} wallet={account}/>}
         </Container>
       </Header>
     );

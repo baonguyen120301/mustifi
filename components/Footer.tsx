@@ -1,6 +1,7 @@
 import { createStyles, Text, Container, ActionIcon, Group } from '@mantine/core';
 import { IconBrandTwitter, IconBrandFacebook, IconBrandGithub, IconHeart } from '@tabler/icons';
-import { MantineLogo } from '@mantine/ds';
+import Image from 'next/image';
+import image from '../public/Mustifi.svg'
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -132,7 +133,7 @@ export default function Footer({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <MantineLogo size={30} />
+          <Image height={100} width={100} src={image}/>
           <Text size="xs" color="dimmed" className={classes.description}>
             Mustifi is a decentralize finance with the most security and easy to access
           </Text>
