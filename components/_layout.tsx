@@ -27,16 +27,16 @@ export default function Layout({ children }: LayoutProps) {
             label: "Home",
           },
           {
-            link: "/",
+            link: "#",
             label: "Event",
             links: [
               {
-                link: "/home/1",
-                label: "Sale",
+                link: "/upcoming-event",
+                label: "Upcoming Event",
               },
               {
-                link: "/home/2",
-                label: "Community",
+                link: "/processing-sale",
+                label: "Ticketing Events in Progress",
               },
             ],
           },
