@@ -1,31 +1,38 @@
-import { createStyles, Container, Title, Text, Button, Group } from '@mantine/core';
-import ListEvent from './ListEvent';
-import FeaturesCards from './Features';
+import {
+  createStyles,
+  Container,
+  Title,
+  Text,
+  Button,
+  Group,
+} from "@mantine/core";
+import ListEvent from "../components/ListEvent";
+import FeaturesCards from "../components/Features";
 
 const useStyles = createStyles((theme) => ({
   root: {
-    backgroundColor: '#11284b',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundColor: "#11284b",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     backgroundImage:
-      'linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(https://raw.githubusercontent.com/baonguyen120301/mustifi-assets/a667db280429d05c9b0905a83895c140a7bea865/background.svg)',
+      "linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(https://raw.githubusercontent.com/baonguyen120301/mustifi-assets/a667db280429d05c9b0905a83895c140a7bea865/background.svg)",
     paddingTop: theme.spacing.xl * 10,
     paddingBottom: theme.spacing.xl * 2,
   },
 
   inner: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     marginBottom: 250,
 
-    [theme.fn.smallerThan('md')]: {
-      flexDirection: 'column',
+    [theme.fn.smallerThan("md")]: {
+      flexDirection: "column",
     },
   },
 
   image: {
-    [theme.fn.smallerThan('md')]: {
-      display: 'none',
+    [theme.fn.smallerThan("md")]: {
+      display: "none",
     },
   },
 
@@ -34,7 +41,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.xl * 2,
     marginRight: theme.spacing.xl * 3,
 
-    [theme.fn.smallerThan('md')]: {
+    [theme.fn.smallerThan("md")]: {
       marginRight: 0,
     },
   },
@@ -47,8 +54,8 @@ const useStyles = createStyles((theme) => ({
     maxWidth: 500,
     fontSize: 48,
 
-    [theme.fn.smallerThan('md')]: {
-      maxWidth: '100%',
+    [theme.fn.smallerThan("md")]: {
+      maxWidth: "100%",
       fontSize: 34,
       lineHeight: 1.15,
     },
@@ -59,8 +66,8 @@ const useStyles = createStyles((theme) => ({
     opacity: 0.75,
     maxWidth: 500,
 
-    [theme.fn.smallerThan('md')]: {
-      maxWidth: '100%',
+    [theme.fn.smallerThan("md")]: {
+      maxWidth: "100%",
     },
   },
 
@@ -70,8 +77,8 @@ const useStyles = createStyles((theme) => ({
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 22,
 
-    [theme.fn.smallerThan('md')]: {
-      width: '100%',
+    [theme.fn.smallerThan("md")]: {
+      width: "100%",
     },
   },
 }));
@@ -84,24 +91,25 @@ export default function MustifiHome() {
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
-              A{' '}
+              A{" "}
               <Text
                 component="span"
                 inherit
                 variant="gradient"
-                gradient={{ from: 'pink', to: 'yellow' }}
+                gradient={{ from: "pink", to: "yellow" }}
               >
                 decentralize marketplace
-              </Text>{' '}
+              </Text>{" "}
             </Title>
 
             <Text className={classes.description} mt={30}>
-              Mustifi is a web3 platform where anyone can buy concert tickets on a decentralized space
+              Mustifi is a web3 platform where anyone can buy concert tickets on
+              a decentralized space
             </Text>
 
             <Button
               variant="gradient"
-              gradient={{ from: 'pink', to: 'yellow' }}
+              gradient={{ from: "pink", to: "yellow" }}
               size="xl"
               className={classes.control}
               mt={40}
@@ -110,14 +118,14 @@ export default function MustifiHome() {
             </Button>
           </div>
         </div>
-        <FeaturesCards/>
+        <FeaturesCards />
         <Group position="center">
           <Title className={classes.title}>
             <Text
-            component="span"
-            inherit
-            variant="gradient"
-            gradient={{ from: '#5C7CFA', to: '#FF6B6B' }}
+              component="span"
+              inherit
+              variant="gradient"
+              gradient={{ from: "#5C7CFA", to: "#FF6B6B" }}
             >
               Upcoming events
             </Text>
