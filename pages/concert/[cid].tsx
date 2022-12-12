@@ -15,6 +15,9 @@ import { marketplaceContract } from "../../components/contract/marketplace";
 import Web3 from "web3";
 import LaunchCountdown from "../../components/LaunchCountdown";
 import styles from "./style.module.scss";
+import { useAddress } from "@thirdweb-dev/react";
+import { NftAddress } from "../../components/contract/Nft";
+const _ = require("lodash");
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -48,6 +51,7 @@ const useStyles = createStyles((theme) => ({
 
   body: {
     paddingRight: theme.spacing.xl * 4,
+    width: 700,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       paddingRight: 0,
@@ -111,13 +115,16 @@ export default function ConcertDetail() {
   const { classes } = useStyles();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
   let [image, setImage] = useState<string>("");
   const [status, setStatus] = useState<TypeForSale>("pending");
   const [price, setPrice] = useState<string>("");
   const [diff, setDiff] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>("");
+  const [tickets, setTickets] = useState<Array<number>>([]);
   const router = useRouter();
+  const address = useAddress();
   const cid = router.query.cid;
 
   async function CheckCid() {
@@ -138,6 +145,7 @@ export default function ConcertDetail() {
         .call();
 
       const { start_date, end_date, price, tokenIds } = concert;
+      setTickets(tokenIds);
 
       const price_for_sale = web3.utils.fromWei(price.toString(), "ether");
       const startDate = new Date(start_date * 1000);
@@ -155,20 +163,39 @@ export default function ConcertDetail() {
         setStatus("pending");
       }
 
+      setPageLoading(false);
+    }
+  }
+
+  async function buyTicket() {
+    setLoading(true);
+    // get random ticket from array
+    let ticket = _.sampleSize(tickets, 1);
+    ticket = Number(ticket[0]);
+    const price_for_buy = web3.utils.toWei(price.toString(), "ether");
+    console.log(Number(price_for_buy));
+    try {
+      const response = await marketplaceContract.methods
+        .buyItem(NftAddress, ticket, cid)
+        .send({ from: address, value: price_for_buy });
+      console.log(response);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
       setLoading(false);
     }
   }
 
   useEffect(() => {
     if (cid) {
-      setLoading(true);
+      setPageLoading(true);
       CheckCid();
     }
   }, [cid]);
 
   return (
     <div className={classes.root}>
-      <Skeleton visible={loading}>
+      <Skeleton visible={pageLoading}>
         <div className={classes.wrapper}>
           <div className={classes.body}>
             <Title
@@ -193,6 +220,8 @@ export default function ConcertDetail() {
                 gradient={{ from: "orange", to: "red" }}
                 size="md"
                 fullWidth
+                onClick={buyTicket}
+                loading={loading}
               >
                 Buy Now
               </Button>
